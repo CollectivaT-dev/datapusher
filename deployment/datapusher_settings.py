@@ -17,6 +17,9 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/job_store.db'
 HOST = '0.0.0.0'
 PORT = 8800
 
+CKAN_PUBLIC_DOMAIN = 'localhost'
+CKAN_INTERNAL_DOMAIN = 'ckan'
+
 # logging
 
 #FROM_EMAIL = 'server-error@example.com'

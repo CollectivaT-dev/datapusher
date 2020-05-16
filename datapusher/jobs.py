@@ -113,6 +113,17 @@ class HTTPError(util.JobError):
             .encode('ascii', 'replace')
 
 
+def convert_url_to_internal_url(url):
+
+    CKAN_PUBLIC_DOMAIN = web.app.config.get('CKAN_PUBLIC_DOMAIN')
+    CKAN_INTERNAL_DOMAIN = web.app.config.get('CKAN_INTERNAL_DOMAIN')
+
+    if type(url) == str:
+        url = url.replace(CKAN_PUBLIC_DOMAIN, CKAN_INTERNAL_DOMAIN)
+    elif type(url) == unicode:
+        url = url.decode('utf-8').replace(CKAN_PUBLIC_DOMAIN, CKAN_INTERNAL_DOMAIN).encode('utf-8')
+    return url
+
 def get_url(action, ckan_url):
     """
     Get url for ckan action
@@ -120,8 +131,9 @@ def get_url(action, ckan_url):
     if not urlsplit(ckan_url).scheme:
         ckan_url = 'http://' + ckan_url.lstrip('/')
     ckan_url = ckan_url.rstrip('/')
-    return '{ckan_url}/api/3/action/{action}'.format(
+    url =  '{ckan_url}/api/3/action/{action}'.format(
         ckan_url=ckan_url, action=action)
+    return convert_url_to_internal_url(url)
 
 
 def check_response(response, request_url, who, good_status=(201, 200), ignore_no_success=False):
@@ -354,6 +366,8 @@ def push_to_datastore(task_id, input, dry_run=False):
 
     # fetch the resource data
     logger.info('Fetching from: {0}'.format(url))
+    url = convert_url_to_internal_url(url)
+
     headers = {}
     if resource.get('url_type') == 'upload':
         # If this is an uploaded file to CKAN, authenticate the request,
