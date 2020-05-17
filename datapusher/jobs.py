@@ -118,10 +118,8 @@ def convert_url_to_internal_url(url):
     CKAN_PUBLIC_DOMAIN = web.app.config.get('CKAN_PUBLIC_DOMAIN')
     CKAN_INTERNAL_DOMAIN = web.app.config.get('CKAN_INTERNAL_DOMAIN')
 
-    if type(url) == str:
-        url = url.replace(CKAN_PUBLIC_DOMAIN, CKAN_INTERNAL_DOMAIN)
-    elif type(url) == unicode:
-        url = url.decode('utf-8').replace(CKAN_PUBLIC_DOMAIN, CKAN_INTERNAL_DOMAIN).encode('utf-8')
+    url = url.replace(CKAN_PUBLIC_DOMAIN, CKAN_INTERNAL_DOMAIN)
+
     return url
 
 def get_url(action, ckan_url):
