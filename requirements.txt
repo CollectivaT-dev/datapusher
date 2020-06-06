@@ -3,4 +3,5 @@ ckanserviceprovider==0.0.10
 html5lib==1.0.1
 messytables==0.15.2
 certifi
-requests[security]==2.20.0
+requests
+gunicorn
